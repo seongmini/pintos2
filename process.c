@@ -1,3 +1,7 @@
+/* Starts a new thread running a user program loaded from
+   FILENAME.  The new thread may be scheduled (and may even exit)
+   before process_execute() returns.  Returns the new process's
+   thread id, or TID_ERROR if the thread cannot be created. */
 tid_t
 process_execute (const char *file_name) 
 {
@@ -23,7 +27,8 @@ process_execute (const char *file_name)
   return tid;
 }
 
-
+/* A thread function that loads a user process and starts it
+   running. */
 static void
 start_process (void *file_name_)
 {
@@ -51,4 +56,10 @@ start_process (void *file_name_)
      and jump to it. */
   asm volatile ("movl %0, %%esp; jmp intr_exit" : : "g" (&if_) : "memory");
   NOT_REACHED ();
+}
+
+/* added for pintOS2 - 1 argument parsing*/
+void argument_stack(const char* argv[], int argc, void **esp)
+{
+
 }
